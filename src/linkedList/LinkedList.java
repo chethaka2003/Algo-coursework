@@ -23,6 +23,9 @@ public class LinkedList {
 
     public void show(LinkedList current) {
         Node temp = current.head;
+        if (current.head == null){
+            System.out.println("No dependencies to show");
+        }
         while (temp != null) {
             System.out.println(temp.job.job_ID);
             temp = temp.next;
