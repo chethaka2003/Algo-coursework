@@ -11,12 +11,14 @@ public class Main {
         System.out.println("Welcome to the job scheduling system");
         System.out.println(" ");
         JobArray obj = new JobArray();
-        obj.createJob(5555,"fuck","none");
-        obj.createJob(3333,"sex","none");
-        obj.createJob(1111,"huuuu","pukaa");
-        obj.createDependencies(5555,3333);
-        obj.createDependencies(3333,1111);
-        obj.executeJob(obj.find_job(5555));
+        obj.createJob(1111,"Water","none");
+        obj.createJob(2222,"Poop","none");
+        obj.createJob(3333,"Eat","none");
+        obj.createJob(4444,"apple","none");
+        obj.createJob(5555,"eat","none");
+        obj.createDependencies(1111,2222);
+        obj.createDependencies(2222,3333);
+        obj.executeAllJobs();
 
 
 

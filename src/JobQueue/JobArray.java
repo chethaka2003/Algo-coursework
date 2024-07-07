@@ -51,21 +51,18 @@ public class JobArray {
         System.out.println(" ");
         System.out.println("Job name : "+find_job(job_Id).job_Name);
         System.out.println(" ");
-        System.out.println("Job description "+find_job(job_Id).job_Description);
+        System.out.println("Job description :"+find_job(job_Id).job_Description);
         System.out.println(" ");
+        System.out.println("Dependencies of job ID: "+job_Id);
         find_job(job_Id).dependencies.show();
         System.out.println(" ");
     }
 
     public void executeJob(Job job) {
-        showJob(job.job_ID);
         if (job.dependencies.checkReady()) {
             System.out.println("All dependencies are completed");
+            job.setCompleted();
             System.out.println(" ");
-            jobs[front].setCompleted();
-            System.out.println(" ");
-            System.out.println(jobs[front].job_ID + " is completed ");
-            ++front;
 
         } else {
             System.out.println("Completing all dependencies.....");
@@ -73,6 +70,19 @@ public class JobArray {
 
         }
 
+    }
+    public void executeAllJobs() {
+        while (front < back){
+            System.out.println("Current executing job details :");
+            showJob(jobs[front].job_ID);
+            executeJob(jobs[front]);
+            System.out.println(jobs[front].job_ID + " is completed ");
+            System.out.println(" ");
+            ++front;
+        }
+    }
 
+    public Job showCurrentExecuteJob(){
+        return jobs[front];
     }
 }
