@@ -1,13 +1,13 @@
 package JobQueue;
 
 import Job.Job;
+import linkedList.LinkedList;
 
 public class JobArray {
     private Job[] jobs = new Job[10];
     public static int count = 0;
-    int front;          //To maintain the queue front
-    int back;
-    int size;
+    public static int front = 0;          //To maintain the queue front
+    public static int back = 0;
 //    public void input_Array(int size){
 //        this.jobs = new Job[size];
 //    }
@@ -19,6 +19,7 @@ public class JobArray {
         }
         jobs[count] = new Job(job_Id,jobName,jobDescription);            //Creating new Job object
         count++;
+        ++back;
     }
 
     public Job find_job(int jobID){            //finding a job
@@ -31,20 +32,47 @@ public class JobArray {
         return null;
     }
 
-    public void createDependencies(int job_Id,int dep_Id){
-        if(find_job(job_Id) == null && find_job(dep_Id) == null){
-            System.out.println("Jobs are not exist");
-        }
-        else {
-            find_job(job_Id).dependencies.insert(find_job(dep_Id));     //adding dependencies
+    public void createDependencies(int job_Id, int dep_Id) {
+        if (find_job(job_Id) == null || find_job(dep_Id) == null) { // Avoiding adding null jobs
+            System.out.println("Jobs do not exist");
+        } else if (job_Id == dep_Id) { // Avoiding implementing job ID as dependent ID
+            System.out.println("You can't insert job ID as dependent ID");
+        } else if (LinkedList.avaiable(find_job(dep_Id).dependencies, find_job(job_Id))) { // Checking if the Job ID was a Dependency ID of the current Dependency in the past
+            System.out.println("Job ID cannot be a previous dependency of the current Dependency");
+        } else {
+            find_job(job_Id).dependencies.insert(find_job(dep_Id)); // Adding dependencies
         }
     }
 
-    public void showJob(int job_Id){
-        System.out.println(find_job(job_Id).job_Name);
-        System.out.println(find_job(job_Id).job_Description);
-        find_job(job_Id).dependencies.show(find_job(job_Id).dependencies);
+
+    public void showJob(int job_Id){            //Showing the details of the job
+        System.out.println(" ");
+        System.out.println("Job ID: " + job_Id);
+        System.out.println(" ");
+        System.out.println("Job name : "+find_job(job_Id).job_Name);
+        System.out.println(" ");
+        System.out.println("Job description "+find_job(job_Id).job_Description);
+        System.out.println(" ");
+        find_job(job_Id).dependencies.show();
+        System.out.println(" ");
     }
 
+    public void executeJob(Job job) {
+        showJob(job.job_ID);
+        if (job.dependencies.checkReady()) {
+            System.out.println("All dependencies are completed");
+            System.out.println(" ");
+            jobs[front].setCompleted();
+            System.out.println(" ");
+            System.out.println(jobs[front].job_ID + " is completed ");
+            ++front;
 
+        } else {
+            System.out.println("Completing all dependencies.....");
+            executeJob(job.dependencies.getDependencies());
+
+        }
+
+
+    }
 }

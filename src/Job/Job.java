@@ -16,6 +16,9 @@ public class Job {
         this.dependencies = new LinkedList();
 
     }
+    public void setCompleted(){
+        this.completed = true;
+    }
 
 
 }

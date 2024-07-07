@@ -1,10 +1,12 @@
 package Job;
 
+import JobQueue.JobArray;
+
 public class JobSchedular {
 
-    int highest_jobs;
-
-    public JobSchedular(int max_jobs) {
-        this.highest_jobs = highest_jobs;
+    public static void jobExecuter(Job [] jobs) {
     }
+
+
 }
+
