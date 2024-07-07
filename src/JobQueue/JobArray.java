@@ -8,9 +8,7 @@ public class JobArray {
     public static int count = 0;
     public static int front = 0;          //To maintain the queue front
     public static int back = 0;
-//    public void input_Array(int size){
-//        this.jobs = new Job[size];
-//    }
+
 
     public void createJob(int job_Id,String jobName,String jobDescription){
         if (count == jobs.length){           //Checking is size of the array is enough or not
