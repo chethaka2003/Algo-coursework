@@ -17,7 +17,8 @@ public class Main {
         obj.createJob(4444,"apple","none");
         obj.createJob(5555,"eat","none");
         obj.createDependencies(1111,2222);
-        obj.createDependencies(2222,5555);
+        obj.createDependencies(2222,3333);
+        obj.createDependencies(1111,4444);
         obj.executeAllJobs();
 
 

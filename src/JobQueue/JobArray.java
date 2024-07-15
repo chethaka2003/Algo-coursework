@@ -35,7 +35,7 @@ public class JobArray {
             System.out.println("Jobs do not exist");
         } else if (job_Id == dep_Id) { // Avoiding implementing job ID as dependent ID
             System.out.println("You can't insert job ID as dependent ID");
-        } else if (LinkedList.avaiable(find_job(dep_Id).dependencies, find_job(job_Id))) { // Checking if the Job ID was a Dependency ID of the current Dependency in the past
+        } else if (LinkedList.available(find_job(dep_Id).dependencies, find_job(job_Id))) { // Checking if the Job ID was a Dependency ID of the current Dependency in the past
             System.out.println("Job ID cannot be a previous dependency of the current Dependency");
         } else {
             find_job(job_Id).dependencies.insert(find_job(dep_Id)); // Adding dependencies
@@ -59,24 +59,26 @@ public class JobArray {
     public void executeJob(Job job) {
         if (job.dependencies.checkReady()) {
             System.out.println("All dependencies are completed");
+            System.out.println("Completed job ID = "+job.job_ID);
             job.setCompleted();
             System.out.println(" ");
-
         } else {
             System.out.println("Completing all dependencies.....");
-            executeJob(job.dependencies.getDependencies());
-
+            for (Job dep : job.dependencies.getDependencies()) {
+                System.out.println("Dependency ID = "+job.job_ID);
+                executeJob(dep);
+            }
         }
-
     }
+
     public void executeAllJobs() {
-        while (front < back){
+        while (front < back) {
             System.out.println("Current executing job details :");
             showJob(jobs[front].job_ID);
             executeJob(jobs[front]);
             System.out.println(jobs[front].job_ID + " is completed ");
             System.out.println(" ");
-            ++front;
+            front++;
         }
     }
 

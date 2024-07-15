@@ -13,11 +13,11 @@ public class LinkedList {
             head = node;
         }
         else{
-             Node temp = head;
-             while (temp.next != null) {        //lopping through every node
+            Node temp = head;
+            while (temp.next != null) {        //lopping through every node
                 temp = temp.next;
-             }
-             temp.next = node;          //Assigning new node address into the previous node address
+            }
+            temp.next = node;          //Assigning new node address into the previous node address
         }
     }
 
@@ -53,25 +53,31 @@ public class LinkedList {
 
     }
 
-    public static boolean avaiable(LinkedList current,Job job) {
+    public static boolean available(LinkedList current, Job job) {
         Node temp = current.head;
         while (temp != null) {
             if (temp.job == job) {
                 return true;
-            } else {
-                temp = temp.next;
-                return false;
             }
-
+            temp = temp.next;
         }
         return false;
     }
 
-    public Job getDependencies() {
+    public Job[] getDependencies() {
         Node temp = this.head;
+        int size = 0;
         while (temp != null) {
-            return temp.job;
+            size++;
+            temp = temp.next;
         }
-        return null;
+        Job[] dependencies = new Job[size];
+        temp = this.head;
+        int index = 0;
+        while (temp != null) {
+            dependencies[index++] = temp.job;
+            temp = temp.next;
+        }
+        return dependencies;
     }
 }
