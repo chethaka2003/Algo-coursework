@@ -52,23 +52,6 @@ public class LinkedList {
 
     }
 
-    //Getting the dependencies
-    public Job[] getDependencies() {
-        Node temp = this.head;
-        int size = 0;
-        while (temp != null) {
-            size++;
-            temp = temp.next;
-        }
-        Job[] dependencies = new Job[size];
-        temp = this.head;
-        int index = 0;
-        while (temp != null) {
-            dependencies[index++] = temp.job;
-            temp = temp.next;
-        }
-        return dependencies;
-    }
 
     // Method to detect cycle
     public boolean hasCycle(Job dep, Job target) {
@@ -125,5 +108,16 @@ public class LinkedList {
         }
     }
 
+    public void addingFront(Job newjob) {
+
+            Node newNode = new Node(newjob);
+            newNode.next = head;
+            head = newNode;
+
+        }
+
+
 }
+
+
 

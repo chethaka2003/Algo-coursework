@@ -6,21 +6,23 @@ import linkedList.LinkedList;
 public class JobArray {
     private Job[] jobs = new Job[10];
     public static int count = 0;
-    public static int front = 0;          //To maintain the queue front
-    public static int back = 0;
-    LinkedList readyQueue = new LinkedList();       //To add the items which are ready to execute
+    LinkedList readyQueue = new LinkedList();//To add the items which are ready to execute
 
     //Creating new job
     public void createJob(int job_Id, String jobName, String jobDescription) {
-        if (count == jobs.length) {  // Check if the size of the array is enough
+        if (count == 10) {  // Check if the size of the array is enough
             Job[] current_jobs = jobs;
             jobs = new Job[current_jobs.length + 5];  // Increase the current size of the array
         }
-        Job newJob = new Job(job_Id, jobName, jobDescription);
-        jobs[count] = newJob;
-        readyQueue.insert(newJob);// Add the job to the ready queue initially
-        count++;
-
+        else if (isAvailable(job_Id)) {
+            System.out.println("ehema karanna ba");;
+        }
+        else {
+            Job newJob = new Job(job_Id, jobName, jobDescription);
+            jobs[count] = newJob;
+            readyQueue.insert(newJob);// Add the job to the ready queue initially
+            count++;
+        }
     }
 
     public Job find_job(int jobID) {  // Finding a job
@@ -39,7 +41,7 @@ public class JobArray {
         Job job = find_job(job_Id);
         Job dep = find_job(dep_Id);
         if (job == null || dep == null) {  // Avoiding adding null jobs
-            System.out.println("Jobs do not exist");
+            System.out.println("This Job ID is already in used");
         } else if (job_Id == dep_Id) {  // Avoiding implementing job ID as dependent ID
             System.out.println("You can't insert job ID as dependent ID");
         } else if (dep.dependencies.hasCycle(dep, job)) {  // Detecting cycle before adding dependency
@@ -91,7 +93,7 @@ public class JobArray {
                     if (dependentJob != null) {
                         dependentJob.dep_count--; //decreasing the dependency count of that job when it is completed
                         if (dependentJob.dep_count == 0) {
-                            readyQueue.insert(dependentJob);    //Adding the job top the ready queue when all dependencies are completed
+                            readyQueue.addingFront(dependentJob);    //Adding the job top the ready queue when all dependencies are completed
                         }
                     }
                 }
@@ -113,9 +115,41 @@ public class JobArray {
         }
     }
 
-    //Showing current executing Job
-    public Job showCurrentExecuteJob() {
-        return jobs[front];
+
+    //Checking weather the job is already availble or not
+    //Bubble sort
+    public boolean isAvailable(int job_Id) {
+        for (int i = 0; i < count-1; i++) {
+            for(int j = 0; j < count-1-i; j++) {
+                if (jobs[j].job_ID > jobs[j+1].job_ID) {
+                    Job temp = jobs[j];
+                    jobs[j] = jobs[j+1];
+                    jobs[j+1] = temp;
+                }
+            }
+        }
+        //Binary search
+        int front = 0;
+        int back = count-1;
+        while (front <= back) {
+
+            int mid = front + (back-front)%2;
+
+            if (jobs[mid].job_ID == job_Id) {
+                return true;
+            }
+
+            else if (jobs[mid].job_ID > job_Id) {
+               back = mid-1;
+            }
+            else if (jobs[mid].job_ID < job_Id) {
+                front = mid+1;
+            }
+        }
+        return false;
     }
 
+
 }
+
+

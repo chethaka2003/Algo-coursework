@@ -31,7 +31,7 @@ public class Job {
 
     //Adding dependency of which project
     public void add_dep_of(int job_ID){
-        if(this.dep_of.length == count){
+        if(4== count){
             int[] temp = new int[count + 10];
             // Copy existing elements to the new array
             for (int i = 0; i < count; i++) {
